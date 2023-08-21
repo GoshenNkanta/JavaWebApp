@@ -7,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  azureServiceConnectionId: $(azureServiceConnectionId)
+  azureServiceConnectionId: 'd5b1b63d-6ad0-4043-bf2f-58ae53af527e'
   webAppName: 'JavaWebapp'
   javaVersion: '11'  # Java version used in the build and runtime
   artifactName: 'webapp'
