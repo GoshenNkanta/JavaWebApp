@@ -8,7 +8,7 @@ pool:
 
 variables:
   azureServiceConnectionId: $(azureServiceConnectionId)
-  webAppName: 'JavaWebApp'
+  webAppName: 'JavaWebapp'
   javaVersion: '11'  # Java version used in the build and runtime
   artifactName: 'webapp'
 
