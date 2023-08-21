@@ -45,6 +45,7 @@ steps:
 
 - task: AzureWebApp@1
   inputs:
+    appType: webApp
     azureSubscription: '$(azureServiceConnectionId)'
     appName: '$(webAppName)'
     package: '$(System.DefaultWorkingDirectory)/target/$(artifactName).war'
