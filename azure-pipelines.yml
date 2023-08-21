@@ -1,0 +1,49 @@
+# azure-pipelines.yml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  azureServiceConnectionId: 'YourAzureServiceConnection'
+  webAppName: 'JavaWebApp'
+  javaVersion: '11'  # Java version used in the build and runtime
+  artifactName: 'webapp'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- task: UseJavaVersion@0
+  inputs:
+    versionSpec: '$(javaVersion)'
+    addToPath: true
+
+- task: MavenAuthenticate@0
+  inputs:
+    mavenServiceConnections: '$(azureServiceConnectionId)'
+
+- script: mvn clean package
+  displayName: 'Build Java Web App'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/target'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(artifactName).zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(artifactName).zip'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: '$(azureServiceConnectionId)'
+    appName: '$(webAppName)'
+    package: '$(System.DefaultWorkingDirectory)/target/$(artifactName).war'
